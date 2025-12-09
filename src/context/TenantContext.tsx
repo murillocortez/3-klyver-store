@@ -37,7 +37,10 @@ export const TenantProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     useEffect(() => {
         // Determine slug: Query Param (?tenant=...) > Route Param (:slug) > Env logic
         // @ts-ignore
-        const slug = searchParams.get('tenant') || params.slug || import.meta.env.VITE_DEFAULT_TENANT_SLUG_STORE;
+        const slug = searchParams.get('tenant') ||
+            new URLSearchParams(window.location.search).get('tenant') ||
+            params.slug ||
+            import.meta.env.VITE_DEFAULT_TENANT_SLUG_STORE;
 
         if (!slug) {
             setLoading(false);
