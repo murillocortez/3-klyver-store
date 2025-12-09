@@ -25,7 +25,7 @@ export const Favorites: React.FC = () => {
         if (!user) return;
         setLoading(true);
         try {
-            const products = await db.getFavoriteProducts(user.id);
+            const products = await db.getFavoriteProducts(user.id!);
             setFavorites(products);
         } catch (error) {
             console.error('Error fetching favorites:', error);
@@ -37,7 +37,7 @@ export const Favorites: React.FC = () => {
     const handleRemoveFavorite = async (productId: string) => {
         if (!user) return;
         try {
-            await db.toggleFavorite(user.id, productId);
+            await db.toggleFavorite(user.id!, productId);
             setFavorites(prev => prev.filter(p => p.id !== productId));
         } catch (error) {
             console.error('Error removing favorite:', error);

@@ -22,7 +22,7 @@ export const ProductDetails: React.FC = () => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    if (product && user) {
+    if (product && user && user.id) {
       db.getFavorites(user.id).then(favs => setIsFavorite(favs.includes(product.id)));
     }
   }, [product, user]);
@@ -36,8 +36,10 @@ export const ProductDetails: React.FC = () => {
     }
 
     try {
-      const result = await db.toggleFavorite(user.id, product.id);
-      setIsFavorite(result.favorited);
+      if (user.id) {
+        const result = await db.toggleFavorite(user.id, product.id);
+        setIsFavorite(result.favorited);
+      }
     } catch (error) {
       console.error('Error toggling favorite:', error);
       alert('Erro ao atualizar favoritos.');
@@ -211,10 +213,10 @@ export const ProductDetails: React.FC = () => {
                   <span className="text-sm text-gray-500">(128 avaliações)</span>
                 </div>
 
-                {product.stock < 10 && product.stock > 0 && (
+                {(product as any).stock < 10 && (product as any).stock > 0 && (
                   <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-lg text-sm font-medium mb-4 flex items-center gap-2">
                     <AlertTriangle size={16} />
-                    Restam apenas {product.stock} unidades em estoque!
+                    Restam apenas {(product as any).stock} unidades em estoque!
                   </div>
                 )}
 

@@ -8,7 +8,7 @@ interface Tenant {
     display_name: string;
     logo_url: string | null;
     plan_code: string;
-    status: 'active' | 'suspended' | 'trial' | 'cancelled';
+    status: 'active' | 'suspended' | 'trial' | 'cancelled' | 'blocked';
     admin_base_url: string | null;
     store_base_url: string | null;
 }
@@ -48,8 +48,7 @@ export const TenantProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             try {
                 setLoading(true);
                 // Use maybeSingle() to handle 0 results gracefully without throwing "coercion" error
-                // @ts-ignore
-                const { data, error } = await supabase
+                const { data, error } = await (supabase as any)
                     .from('tenants')
                     .select('*')
                     .eq('slug', slug)

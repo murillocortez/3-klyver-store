@@ -105,8 +105,8 @@ export const Profile = () => {
                         <UserIcon size={32} />
                     </div>
                     <div>
-                        <h2 className="font-bold text-lg">{user.name}</h2>
-                        <p className="text-sm text-gray-500">Membro desde {formatDate(user.created_at)}</p>
+                        <h2 className="font-bold text-lg">{user?.name}</h2>
+                        <p className="text-sm text-gray-500">Membro desde {formatDate((user as any).created_at)}</p>
                     </div>
                 </div>
 

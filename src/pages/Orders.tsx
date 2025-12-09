@@ -22,7 +22,7 @@ export const Orders: React.FC = () => {
         const fetchOrders = async () => {
             try {
                 const data = await db.getOrders(user.id!);
-                setOrders(data);
+                setOrders(data as any as Order[]);
             } catch (error) {
                 console.error('Failed to load orders', error);
             } finally {
@@ -112,8 +112,8 @@ export const Orders: React.FC = () => {
                                 >
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                         <div className="flex items-start gap-4">
-                                            <div className={`p-3 rounded-xl ${order.deliveryMethod === 'delivery' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
-                                                {order.deliveryMethod === 'delivery' ? <Truck size={24} /> : <Store size={24} />}
+                                            <div className={`p-3 rounded-xl ${(order as any).deliveryMethod === 'delivery' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
+                                                {(order as any).deliveryMethod === 'delivery' ? <Truck size={24} /> : <Store size={24} />}
                                             </div>
                                             <div>
                                                 <div className="flex items-center gap-2 mb-1">
@@ -179,7 +179,7 @@ export const Orders: React.FC = () => {
                                                         <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-50">
                                                             <span className="text-gray-500">Método</span>
                                                             <span className="font-medium text-gray-900 capitalize">
-                                                                {order.deliveryMethod === 'delivery' ? 'Delivery' : 'Retirada na Loja'}
+                                                                {(order as any).deliveryMethod === 'delivery' ? 'Delivery' : 'Retirada na Loja'}
                                                             </span>
                                                         </div>
                                                     </div>

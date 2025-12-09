@@ -29,7 +29,7 @@ class WhatsappService {
     // --- Configuration ---
 
     async getSettings(): Promise<NotificationSettingsData> {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
             .from('notification_settings')
             .select('*')
             .limit(1)
@@ -90,13 +90,13 @@ class WhatsappService {
         }
 
         if (settings.id) {
-            const { error } = await supabase
+            const { error } = await (supabase as any)
                 .from('notification_settings')
                 .update(payload)
                 .eq('id', settings.id);
             if (error) throw error;
         } else {
-            const { error } = await supabase
+            const { error } = await (supabase as any)
                 .from('notification_settings')
                 .insert(payload);
             if (error) throw error;
@@ -227,7 +227,7 @@ class WhatsappService {
     // --- Helpers ---
 
     private async logNotification(message: string, status: 'sent' | 'failed' | 'simulated', response: any, context: { orderId?: string, customerId?: string } | undefined, phone: string, provider: string) {
-        await supabase.from('whatsapp_notifications').insert({
+        await (supabase as any).from('whatsapp_notifications').insert({
             order_id: context?.orderId,
             customer_id: context?.customerId,
             message,
@@ -250,7 +250,7 @@ class WhatsappService {
     }
 
     async getHistory(orderId: string): Promise<WhatsappLog[]> {
-        const { data } = await supabase
+        const { data } = await (supabase as any)
             .from('whatsapp_notifications')
             .select('*')
             .eq('order_id', orderId)

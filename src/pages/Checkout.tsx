@@ -111,7 +111,7 @@ export const Checkout: React.FC = () => {
         await updateProfile({ address: fullAddress });
       }
 
-      const { data: orderId, error } = await supabase.rpc('create_order', {
+      const { data: orderId, error } = await (supabase as any).rpc('create_order', {
         p_customer_name: user.name,
         p_customer_phone: user.phone,
         p_address: fullAddress,
@@ -128,7 +128,7 @@ export const Checkout: React.FC = () => {
         p_delivery_method: deliveryMethod,
         p_delivery_fee: deliveryFee,
         p_customer_id: user.id
-      } as any);
+      });
 
       if (error) throw error;
 

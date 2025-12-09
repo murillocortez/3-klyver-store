@@ -49,7 +49,7 @@ export const cashbackService = {
     // Uso de Cashback no Checkout
     useCashback: async (orderId: string, customerId: string, amount: number): Promise<boolean> => {
         // Chama a função RPC criada no banco
-        const { data, error } = await supabase.rpc('use_cashback', {
+        const { data, error } = await (supabase as any).rpc('use_cashback', {
             p_order_id: orderId,
             p_customer_id: customerId,
             p_amount_to_use: amount
@@ -59,6 +59,6 @@ export const cashbackService = {
             console.error('Error using cashback:', error);
             return false;
         }
-        return data; // Retorna true se sucesso
+        return data as boolean; // Retorna true se sucesso
     }
 };

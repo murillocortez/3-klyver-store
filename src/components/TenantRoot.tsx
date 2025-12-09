@@ -8,8 +8,8 @@ const TenantStatusGuard: React.FC = () => {
     const { tenant, loading, error } = useTenant();
 
     React.useEffect(() => {
-        if (tenant?.fantasyName) {
-            document.title = `${tenant.fantasyName} - App Farmavida`;
+        if ((tenant as any)?.fantasyName) {
+            document.title = `${(tenant as any).fantasyName} - App Farmavida`;
         }
     }, [tenant]);
 

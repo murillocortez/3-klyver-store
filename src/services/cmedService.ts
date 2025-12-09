@@ -34,13 +34,14 @@ export async function searchCMED(query: string): Promise<CMEDItem[]> {
             .single();
 
         if (cacheData) {
-            const created = new Date(cacheData.created_at);
+            const data: any = cacheData;
+            const created = new Date(data.created_at);
             const now = new Date();
             const diffHours = (now.getTime() - created.getTime()) / (1000 * 60 * 60);
 
             if (diffHours < 48) {
                 console.log('CMED: Returning cached data');
-                return cacheData.response_json as CMEDItem[];
+                return data.response_json as CMEDItem[];
             }
         }
 
@@ -260,7 +261,7 @@ export async function importCMEDData(file: File): Promise<{ success: boolean; co
             const BATCH_SIZE = 1000;
             for (let i = 0; i < normalizedRows.length; i += BATCH_SIZE) {
                 const batch = normalizedRows.slice(i, i + BATCH_SIZE);
-                const { error } = await supabase.from('cmed_prices' as any).upsert(batch as any, { onConflict: 'registration_number' as any });
+                const { error } = await supabase.from('cmed_prices' as any).upsert(batch as any, { onConflict: 'registration_number' as any } as any);
                 if (error) throw error;
             }
 
