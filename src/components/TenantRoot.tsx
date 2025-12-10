@@ -4,8 +4,11 @@ import { TenantProvider, useTenant } from '../context/TenantContext';
 import { SubscriptionProvider } from '../context/SubscriptionContext';
 import { StoreProvider } from '../context/StoreContext';
 
+import { AccessBlocker } from './AccessBlocker';
+import { useTenantAccessGuard } from '../hooks/useTenantAccessGuard';
+
 const TenantStatusGuard: React.FC = () => {
-    const { tenant, loading, error } = useTenant();
+    const { tenant, loading, error, isBlocked, blockedReason } = useTenantAccessGuard();
 
     React.useEffect(() => {
         if ((tenant as any)?.fantasyName) {
@@ -32,16 +35,8 @@ const TenantStatusGuard: React.FC = () => {
         );
     }
 
-    if (tenant.status === 'suspended') {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-                <div className="max-w-md w-full bg-white shadow-lg rounded-xl p-8 text-center">
-                    <h1 className="text-xl font-bold text-gray-900 mb-2">Loja Temporariamente Indisponível</h1>
-                    <p className="text-gray-500 mb-4 text-sm">Estamos passando por manutenções ou ajustes administrativos.</p>
-                    <p className="text-xs text-gray-400">Por favor, volte mais tarde.</p>
-                </div>
-            </div>
-        );
+    if (isBlocked) {
+        return <AccessBlocker tenant={tenant} reason={blockedReason || undefined} />;
     }
 
     return (

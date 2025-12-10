@@ -7,10 +7,12 @@ interface Tenant {
     slug: string;
     display_name: string;
     logo_url: string | null;
+    plan_id: string;
     plan_code: string;
-    status: 'active' | 'suspended' | 'trial' | 'cancelled' | 'blocked';
+    status: 'active' | 'suspended' | 'trial' | 'cancelled' | 'blocked' | 'past_due';
     admin_base_url: string | null;
     store_base_url: string | null;
+    blocked_reason?: string;
 }
 
 interface TenantContextType {
