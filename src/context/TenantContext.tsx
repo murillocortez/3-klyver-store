@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { supabase } from '../services/supabase'; // Assuming separate service or shared
@@ -55,7 +56,7 @@ export const TenantProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 // Use maybeSingle() to handle 0 results gracefully without throwing "coercion" error
                 const { data, error } = await (supabase as any)
                     .from('tenants')
-                    .select('*')
+                    .select('id, slug, display_name, logo_url, plan_code, status, store_base_url, whatsapp_number, address, social_links')
                     .eq('slug', slug)
                     .maybeSingle();
 
